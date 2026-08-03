@@ -1,32 +1,63 @@
 import numpy as np
-from scipy.spatial.distance import euclidean
- 
-sex = df['Sex']
-embarked = df['Embarked']
-count = 0
-total = 0
-for s, e in zip(sex, embarked):
-    if pd.isna(s) or pd.isna(e):
-        continue
-    total += 1
-    if s != e:
-        count += 1
-dissimilarity_nominal = count/total
-similarity_nominal = 1 - dissimilarity_nominal
+import pandas as pd
+
+nominal_cols = df.select_dtypes(include=['object', 'category']).columns.tolist()
+numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+
+print("Detected nominal attributes:", nominal_cols)
+print("Detected numeric attributes:", numeric_cols)
+
+
+def nominal_dissimilarity_similarity(col1, col2):
+    a = df[col1]
+    b = df[col2]
+    count = 0
+    total = 0
+    for x, y in zip(a, b):
+        if pd.isna(x) or pd.isna(y):
+            continue
+        total += 1
+        if x != y:
+            count += 1
+    if total == 0:
+        return None, None
+    dissim = count / total
+    sim = 1 - dissim
+    return dissim, sim
+
+
 print("\nNominal Attribute Dissimilarity & Similarity")
-print("Sex vs Embarked - Dissimilarity =", dissimilarity_nominal)
-print("Sex vs Embarked - Similarity =", similarity_nominal)
+for i in range(len(nominal_cols)):
+    for j in range(i + 1, len(nominal_cols)):
+        col1 = nominal_cols[i]
+        col2 = nominal_cols[j]
+        dissim, sim = nominal_dissimilarity_similarity(col1, col2)
+        if dissim is None:
+            print(f"{col1} vs {col2} - No overlapping non-null values")
+            continue
+        print(f"{col1} vs {col2} - Dissimilarity = {dissim}")
+        print(f"{col1} vs {col2} - Similarity   = {sim}")
 
 
-temp = df[['Age','Fare']].dropna()
-age = temp.iloc[0]['Age']
-fare = temp.iloc[0]['Fare']
-age2 = temp.iloc[1]['Age']
-fare2 = temp.iloc[1]['Fare']
+def numeric_dissimilarity_similarity(col1, col2):
+    temp = df[[col1, col2]].dropna()
+    if len(temp) < 2:
+        return None, None
+    v1 = temp.iloc[0][[col1, col2]].values.astype(float)
+    v2 = temp.iloc[1][[col1, col2]].values.astype(float)
+    distance = np.sqrt(np.sum((v1 - v2) ** 2))
+    similarity = 1 / (1 + distance)
+    return distance, similarity
 
-distance = np.sqrt((age-age2)**2 + (fare-fare2)**2)
-similarity_numeric = 1 / (1 + distance)
 
 print("\nNumeric Attribute Dissimilarity & Similarity")
-print("Age vs Fare - Euclidean Distance =", distance)
-print("Age vs Fare - Similarity =", similarity_numeric)
+for i in range(len(numeric_cols)):
+    for j in range(i + 1, len(numeric_cols)):
+        col1 = numeric_cols[i]
+        col2 = numeric_cols[j]
+        distance, sim = numeric_dissimilarity_similarity(col1, col2)
+        if distance is None:
+            print(f"{col1} vs {col2} - Not enough non-null rows")
+            continue
+        print(f"{col1} vs {col2} - Euclidean Distance = {distance}")
+        print(f"{col1} vs {col2} - Similarity         = {sim}")
