@@ -8,19 +8,19 @@ df.columns = ['symboling', 'normalized-losses', 'make', 'fuel-type', 'aspiration
               'engine-type', 'num-of-cylinders', 'engine-size', 'fuel-system', 'bore', 'stroke', 'compression-ratio', 
               'horsepower', 'peak-rpm', 'city-mpg', 'highway-mpg', 'price']
 
-print("--- Full DataFrame ---")
+print("Full DataFrame")
 print(df)
-print("\n--- First 5 Rows ---")
+print("\nFirst 5 Rows)
 print(df.head())
-print("\n--- Last 5 Rows ---")
+print("\nLast 5 Rows")
 print(df.tail())
-print("\n--- DataFrame Information ---")
+print("\nDataFrame Information")
 df.info()
-print("\n--- Summary Statistics ---")
+print("\nSummary Statistics")
 print(df.describe())
-print("\n--- Shape (Rows, Columns) ---")
+print("\nShape")
 print(df.shape)
-print("\n--- Missing Values Count ---")
+print("\nMissing Values Count")
 print(df.isnull().sum())
 print("\n--- Duplicate Rows Count ---")
 print(df.duplicated().sum())
@@ -76,7 +76,7 @@ else:
 
 # Numeric Attribute Dissimilarities
 if len(numeric) >= 2:
-    print("\n--- Numeric Attribute Dissimilarities ---")
+    print("\nNumeric Attribute Dissimilarities")
     for i in range(len(numeric)):
         for j in range(i + 1, len(numeric)):
             col1 = numeric[i]
