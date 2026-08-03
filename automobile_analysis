@@ -30,7 +30,7 @@ if "price" in df.columns:
     print("\nPrice at Index 3:", df.loc[3, "price"])
 print("\nFull Row at Index 4:\n", df.loc[4])
 if "price" in df.columns:
-    print("\n--- Price Value Counts ---")
+    print("\nPrice Value Counts")
     print(df["price"].value_counts())
 
 binary = []
@@ -46,7 +46,7 @@ for col in df.columns:
         numeric.append(col)
     else:
         ordinal.append(col)
-print("\n--- Attribute Classification ---")
+print("\nAttribute Classification")
 print("Binary attributes:", binary)
 print("Ordinal attributes:", ordinal)
 print("Nominal attributes:", nominal)
@@ -54,7 +54,7 @@ print("Numeric attributes:", numeric) # Print numeric attributes
 
 # Nominal Attribute Dissimilarities
 if len(nominal) >= 2:
-    print("\n--- Nominal Attribute Dissimilarities ---")
+    print("\nNominal Attribute Dissimilarities")
     for i in range(len(nominal)):
         for j in range(i + 1, len(nominal)):
             col1 = nominal[i]
