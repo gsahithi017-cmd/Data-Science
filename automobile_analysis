@@ -1,6 +1,3 @@
-# ==========================================
-# Exploratory Data Analysis (EDA)
-# ==========================================
 sns.countplot(x='body-style', data=df)
 plt.title("Body Style Distribution")
 plt.show()
@@ -30,9 +27,6 @@ sns.heatmap(df.corr(numeric_only=True),
 plt.title("Correlation Matrix")
 plt.show()
 
-# ==========================================
-# (b) Identify Attributes
-# ==========================================
 print("\nNumeric Attributes")
 numeric = df.select_dtypes(include=['int64','float64']).columns
 print(numeric)
@@ -45,12 +39,6 @@ print("\nBinary Attributes")
 binary = ['fuel-type']
 print(binary)
 
-# ==========================================
-# (c) Dissimilarity for Nominal Attributes
-# Example:
-# fuel-type and body-style
-# Simple Matching Dissimilarity
-# ==========================================
 fuel = df['fuel-type']
 body = df['body-style']
 count = 0
@@ -65,12 +53,6 @@ dissimilarity = count/total
 print("\nNominal Attribute Dissimilarity")
 print("Fuel-Type vs Body-Style =", dissimilarity)
 
-# ==========================================
-# (d) Numeric Attribute Dissimilarity
-# Example:
-# Horsepower and Price
-# Euclidean Distance
-# ==========================================
 temp = df[['horsepower','price']].dropna()
 hp = temp.iloc[0]['horsepower']
 price = temp.iloc[0]['price']
